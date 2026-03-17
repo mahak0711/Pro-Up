@@ -1,4 +1,3 @@
-server
 netlify
 *.md
 .env*
