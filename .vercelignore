@@ -1,0 +1,6 @@
+server
+netlify
+*.md
+.env*
+!.env.example
+prisma-engines-windows.zip
