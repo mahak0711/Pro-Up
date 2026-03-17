@@ -33,6 +33,7 @@ export async function api(url: string, options: FetchOptions = {}): Promise<Resp
   
   // Prepend API_BASE_URL to relative URLs
   const fullUrl = url.startsWith('http') ? url : `${API_BASE_URL}${url}`;
+  console.log('API call:', url, '→', fullUrl);
   
   return fetch(fullUrl, {
     ...fetchOptions,
