@@ -1,5 +1,5 @@
 {
-  "buildCommand": "pnpm build && pnpm db:migrate:deploy",
+  "buildCommand": "pnpm build:client",
   "outputDirectory": "dist/spa",
   "installCommand": "pnpm install",
   "framework": null,
