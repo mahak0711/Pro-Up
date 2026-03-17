@@ -1,6 +1,9 @@
 // API configuration for different environments
 export const API_BASE_URL = import.meta.env.VITE_API_URL || '';
 
+// Debug: Log the API base URL on initialization
+console.log('API_BASE_URL configured as:', API_BASE_URL || 'relative URLs');
+
 // Helper function to construct API URLs
 export function getApiUrl(path: string): string {
   // Remove leading slash if present to avoid double slashes
