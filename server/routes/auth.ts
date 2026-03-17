@@ -84,8 +84,12 @@ export const forgotPassword: RequestHandler = async (req, res) => {
         console.log('====================================');
       } else {
         const transporter = nodemailer.createTransport({
-          service: 'gmail',
+          host: 'smtp.gmail.com',
+          port: 587,
+          secure: false,
           auth: { user: gmailUser, pass: gmailPassword },
+          tls: { rejectUnauthorized: false },
+          family: 4, // Force IPv4
         });
 
         await transporter.sendMail({
