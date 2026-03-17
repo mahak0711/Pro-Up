@@ -5,7 +5,7 @@ services:
     env: node
     region: oregon
     plan: free
-    buildCommand: pnpm install && pnpm db:generate && pnpm build:server
+    buildCommand: pnpm install && pnpm db:generate && pnpm db:migrate:deploy && pnpm build:server
     startCommand: pnpm start
     envVars:
       - key: NODE_ENV
