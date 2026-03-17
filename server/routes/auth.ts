@@ -1,8 +1,12 @@
 import { RequestHandler } from 'express';
 import crypto from 'crypto';
 import nodemailer from 'nodemailer';
+import dns from 'dns';
+import { promisify } from 'util';
 import { prisma } from '../prisma';
 import { AuthRequest } from '../middleware/authorize';
+
+const lookup4 = promisify(dns.lookup);
 
 /**
  * POST /api/auth/register
@@ -88,8 +92,22 @@ export const forgotPassword: RequestHandler = async (req, res) => {
           port: 587,
           secure: false,
           auth: { user: gmailUser, pass: gmailPassword },
-          tls: { rejectUnauthorized: false },
-          family: 4, // Force IPv4
+          tls: { 
+            rejectUnauthorized: false,
+            minVersion: 'TLSv1.2'
+          },
+          dnsTimeout: 30000,
+          socketTimeout: 30000,
+          greetingTimeout: 30000,
+          connectionTimeout: 30000,
+          lookup: async (hostname: string, options: any, callback: any) => {
+            try {
+              const result = await lookup4(hostname, { family: 4 });
+              callback(null, result.address, 4);
+            } catch (error) {
+              callback(error);
+            }
+          },
         });
 
         await transporter.sendMail({
