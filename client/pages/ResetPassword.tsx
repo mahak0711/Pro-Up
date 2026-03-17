@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { AlertCircle, CheckCircle } from "lucide-react";
+import { api } from "@/lib/api";
 
 export default function ResetPassword() {
   const { token } = useParams();
@@ -40,9 +41,9 @@ export default function ResetPassword() {
     setIsLoading(true);
 
     try {
-      const response = await fetch("/api/auth/reset-password", {
+      const response = await api("/api/auth/reset-password", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        skipAuth: true,
         body: JSON.stringify({ token, password }),
       });
 
