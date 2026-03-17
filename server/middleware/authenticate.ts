@@ -1,6 +1,9 @@
-import { Response, NextFunction } from 'express';
+import type { Response as ExpressResponse, NextFunction as ExpressNextFunction } from 'express';
 import { prisma } from '../prisma';
 import { AuthRequest } from './authorize';
+
+type Response = ExpressResponse<any, Record<string, any>>;
+type NextFunction = ExpressNextFunction;
 
 // Simple session-based authentication
 // In production, use proper JWT tokens or session management
@@ -21,7 +24,7 @@ export const authenticate = async (req: AuthRequest, res: Response, next: NextFu
           name: defaultUser.name,
         };
       }
-      return next();
+      return (next as any)();
     }
 
     // Fetch user from database
@@ -35,22 +38,22 @@ export const authenticate = async (req: AuthRequest, res: Response, next: NextFu
     });
 
     if (!user) {
-      return res.status(401).json({ error: 'User not found' });
+      return (res as any).status(401).json({ error: 'User not found' });
     }
 
     // Attach user to request
     req.user = user;
-    next();
+    (next as any)();
   } catch (error) {
     console.error('Authentication error:', error);
-    res.status(500).json({ error: 'Authentication failed' });
+    (res as any).status(500).json({ error: 'Authentication failed' });
   }
 };
 
 // Middleware to require authentication
 export const requireAuth = (req: AuthRequest, res: Response, next: NextFunction) => {
   if (!req.user) {
-    return res.status(401).json({ error: 'Authentication required' });
+    return (res as any).status(401).json({ error: 'Authentication required' });
   }
-  next();
+  (next as any)();
 };
