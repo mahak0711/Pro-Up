@@ -1,4 +1,4 @@
-import type { Response, NextFunction } from 'express';
+import { Response, NextFunction } from 'express';
 import { prisma } from '../prisma';
 import { AuthRequest } from './authorize';
 
