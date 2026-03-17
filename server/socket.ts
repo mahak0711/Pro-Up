@@ -37,7 +37,7 @@ export function setupSocketServer(httpServer: AnyHttpServer) {
   const existing = getIO();
   if (existing) return existing;
 
-  const io = new Server(httpServer, {
+  const io = new Server<any, any, any, any>(httpServer, {
     cors: {
       origin: '*',
       methods: ['GET', 'POST'],
