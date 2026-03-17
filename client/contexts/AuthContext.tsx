@@ -49,9 +49,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const login = async (email: string, password: string) => {
     try {
-      const response = await fetch('/api/auth/login', {
+      const response = await api('/api/auth/login', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        skipAuth: true,
         body: JSON.stringify({ email, password }),
       });
 
@@ -71,9 +71,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const register = async (email: string, name: string, password: string) => {
     try {
-      const response = await fetch('/api/auth/register', {
+      const response = await api('/api/auth/register', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        skipAuth: true,
         body: JSON.stringify({ email, name, password }),
       });
 
