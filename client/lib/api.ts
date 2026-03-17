@@ -2,6 +2,8 @@
  * API utility that automatically includes authentication headers
  */
 
+import { API_BASE_URL } from './config';
+
 type FetchOptions = RequestInit & {
   skipAuth?: boolean;
 };
@@ -29,7 +31,10 @@ export async function api(url: string, options: FetchOptions = {}): Promise<Resp
     }
   }
   
-  return fetch(url, {
+  // Prepend API_BASE_URL to relative URLs
+  const fullUrl = url.startsWith('http') ? url : `${API_BASE_URL}${url}`;
+  
+  return fetch(fullUrl, {
     ...fetchOptions,
     headers,
   });
